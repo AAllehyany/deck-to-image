@@ -47,24 +47,19 @@ async function deckListToImage(deckList, config=defaultConfig) {
   const allImages = await Promise.all(imgs);
 
   allImages.forEach((img) => {
-      const x = i_x % settings.cardsX;
-      const posX = (settings.imageWidth+settings.spacingX) * x;
-      const posY = (settings.imageHeight+settings.spacingY)*i_y;
-      ctx.drawImage(img,posX, posY, settings.imageWidth, settings.imageHeight);
+    const x = i_x % settings.cardsX;
+    const posX = (settings.imageWidth+settings.spacingX) * x;
+    const posY = (settings.imageHeight+settings.spacingY)*i_y;
+    ctx.drawImage(img,posX, posY, settings.imageWidth, settings.imageHeight);
 
-      i_x++;
+    i_x++;
 
-      // add a new row 
-      if( i_x % settings.cardsX === 0) {
-        i_y += 1;
-      }
+    // add a new row 
+    if( i_x % settings.cardsX === 0) {
+      i_y += 1;
+    }
   })
 
 
-  const buffer = canvas.toBuffer('image/png');
-  fs.writeFile(`${deckList.name}.png`, buffer, (err) => {
-    console.log(err);
-  });
+  return canvas;
 }
-
-deckListToImage(_list, {spacingY: 0, spacingX: 0});
